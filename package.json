@@ -1,0 +1,29 @@
+{
+  "name": "servidor_express",
+  "version": "1.0.0",
+  "description": "Servidor com express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aparecidalml/servidor_express.git"
+  },
+  "keywords": [],
+  "author": "Aparecida Lopes",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Aparecidalml/servidor_express/issues"
+  },
+  "homepage": "https://github.com/Aparecidalml/servidor_express#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
