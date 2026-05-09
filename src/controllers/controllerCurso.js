@@ -1,19 +1,11 @@
-import express from 'express'
 import path from 'path'
+import {lerCursos, salvarCursos} from '../models/modelCurso.js'
 
-const routerCurso = express()
+ const cursos = lerCursos()
 
-let cursos = [{cod: '001', curso: 'Desenvolvimento de Sistema', ch: 1200, tipo: 'Técnico'}]
-
-routerCurso.get('/cadastro', (req, res) => {
-    res.sendFile(path.resolve('./src/public/html/cadastro.html'))
-})
-
-//Rota para adicionar curso
-routerCurso.post('/curso', (req, res) => {  
-    // const {cod, curso, ch, tipo} = req.body // desestruturação da requisição
-
-    // console.log(req.body) // visualizando o corpo da requisição  
+export const criarCurso = (req, res) => {
+     // const {cod, curso, ch, tipo} = req.body // desestruturação da requisição
+    // console.log(req.body) // visualizando o corpo da requisição     
 
     const cod = req.body.cod
     const curso = req.body.curso
@@ -23,28 +15,27 @@ routerCurso.post('/curso', (req, res) => {
     const cursoNovo = {cod, curso, ch, tipo}
 
     cursos.push(cursoNovo)
+    salvarCursos(cursos)
     
-   res.status(200).json({mensagem: 'Dados enviados!', cursoNovo})
-})
+    res.status(200).json({mensagem: 'Curso cadastrado!', cursoNovo})
 
-routerCurso.get('/cursos', (req, res) => {
+//    res.redirect('/cursos') // redireciona para outra rota
+}
+
+export function listarCursos (req, res) {
     res.status(200).json(cursos)
-})
+}
 
-// rota atulizar todos os dados
-routerCurso.get('/curso/:curso', (req, res) => {
-    const cursoEncontrado = cursos.find(c => c.curso === req.params.curso)
-
+export const buscarCurso = (req, res) => {
+     const cursoEncontrado = cursos.find(c => c.curso === req.params.curso)
     if(!cursoEncontrado){
       return res.status(500).json({mensagem: 'Curso não encontrado'})
-    }
-    
+    }    
     res.status(200).json({mensagem: 'Curso Encontrado: ', cursoEncontrado})
-})
+}
 
-// rota atulizar todos os dados
-routerCurso.put('/curso/:cod', (req, res) => {
-    const cursoEncontrado = cursos.find(c => c.cod === req.params.cod)
+export const atualizarCurso = (req, res) => {
+     const cursoEncontrado = cursos.find(c => c.cod === req.params.cod)
 
     if(!cursoEncontrado){
       return res.status(500).json({mensagem: 'Curso não encontrado!'})
@@ -63,10 +54,9 @@ routerCurso.put('/curso/:cod', (req, res) => {
     const cursoAtual = {cod, curso, ch, tipo}
 
     res.status(200).json({mensagem: 'Curso Encontrado: ', cursoAtual})
-})
+}
 
-// Rota para remover curso pelo código
-routerCurso.delete('/curso/:cod', (req, res) => {
+export const removerCurso = (req, res) => {
      const cursoEncontrado = cursos.findIndex(c => c.cod === req.params.cod)
 
     if(cursoEncontrado === -1){
@@ -76,10 +66,9 @@ routerCurso.delete('/curso/:cod', (req, res) => {
     cursos.splice(cursoEncontrado, 1)
 
     res.status(200).json({mensagem: 'Curso Removido com sucesso!', cursos})
-})
+}
 
-// atualizar um ou mais dados do curso
-routerCurso.patch('/curso/:cod', (req, res) => {
+export const alterarCurso = (req, res) => {
     const cursoEncontrado = cursos.find(c => c.cod === req.params.cod)
 
     if(!cursoEncontrado){
@@ -105,6 +94,8 @@ routerCurso.patch('/curso/:cod', (req, res) => {
         tipo: cursoEncontrado.tipo}
 
     res.status(200).json({mensagem: 'Curso Encontrado: ', cursoAtual})
-})
+}
 
-export default routerCurso
+export const cadastroCurso = (req, res) => {
+    res.sendFile(path.resolve('./src/public/html/cadastroCurso.html'))
+}
