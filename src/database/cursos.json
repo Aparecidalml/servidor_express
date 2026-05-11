@@ -1,0 +1,14 @@
+[
+  {
+    "cod": "1001",
+    "curso": "DS",
+    "ch": "1200",
+    "tipo": "técnico"
+  },
+  {
+    "cod": "1002",
+    "curso": "Enfermagem",
+    "ch": "1500",
+    "tipo": "técnico"
+  }
+]
