@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
 
 // export let cursos = [{
 //     cod: '001', 
@@ -9,9 +8,7 @@ import { fileURLToPath } from 'url'
 //     tipo: 'Técnico'
 // }]
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const caminho =  path.join(__dirname, '..', 'database', 'cursos.json')
+const caminho = path.join(import.meta.dirname, '..', 'database', 'cursos.json')
 
 export function lerCursos() {
     try {
