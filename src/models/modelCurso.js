@@ -16,7 +16,7 @@ const caminho =  path.join(__dirname, '..', 'database', 'cursos.json')
 export function lerCursos() {
     try {
         if (!fs.existsSync(caminho)) {
-            fs.writeFileSync(caminho)
+            fs.writeFileSync(caminho, '[]', 'utf-8')
         }
         const conteudo = fs.readFileSync(caminho, 'utf-8')
         if (conteudo === '') {
