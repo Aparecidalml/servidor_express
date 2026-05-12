@@ -28,7 +28,7 @@ export function lerCursos() {
 }
 
 export function salvarCursos(cursos) {
-    console.log(cursos)
+    // console.log(cursos)
     try {
         fs.writeFileSync(caminho, JSON.stringify(cursos, null, 2))
         console.log("Arquivo JSON criado com sucesso!")

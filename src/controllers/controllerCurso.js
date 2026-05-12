@@ -1,7 +1,8 @@
-import path from 'path'
-import {lerCursos, salvarCursos} from '../models/modelCurso.js'
+import path from "path"
+import { lerCursos, salvarCursos } from "../models/modelcurso.js"
+import {v4 as uuid} from 'uuid' 
 
- const cursos = lerCursos()
+ const cursos = lerCursos() // [] ou dados do arquivo JSON
 
 export const criarCurso = (req, res) => {
      // const {cod, curso, ch, tipo} = req.body // desestruturação da requisição
@@ -12,7 +13,7 @@ export const criarCurso = (req, res) => {
     const ch = req.body.ch
     const tipo = req.body.tipo
 
-    const cursoNovo = {cod, curso, ch, tipo}
+    const cursoNovo = {id: uuid(), cod, curso, ch, tipo}
 
     cursos.push(cursoNovo)
     salvarCursos(cursos)

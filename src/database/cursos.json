@@ -1,0 +1,27 @@
+[
+  {
+    "cod": "001",
+    "curso": "Desenvolvimento Web",
+    "ch": "1200",
+    "tipo": "Técnico"
+  },
+  {
+    "cod": "002",
+    "curso": "Enfermagem",
+    "ch": "1500",
+    "tipo": "Técnico"
+  },
+  {
+    "cod": "003",
+    "curso": "Informática",
+    "ch": "192",
+    "tipo": "Básico"
+  },
+  {
+    "id": "0d610190-3617-4512-8072-191e5cca0ef1",
+    "cod": "004",
+    "curso": "Administração",
+    "ch": "1000",
+    "tipo": "Técnico"
+  }
+]
