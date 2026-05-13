@@ -1,7 +1,7 @@
 import express from 'express'
 import { criarCurso, listarCursos, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCurso.js'
 
-const routeCurso = express()
+const routeCurso = express.Router()
 
 routeCurso.get('/cadastro', cadastroCurso)
 

@@ -24,7 +24,9 @@ export const criarCurso = (req, res) => {
 }
 
 export function listarCursos (req, res) {
-    res.status(200).json(cursos)
+    res.render('listarCursos', {cursos})
+    //res.status(200).json(cursos)
+    
 }
 
 export const buscarCurso = (req, res) => {
