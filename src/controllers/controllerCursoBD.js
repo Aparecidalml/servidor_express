@@ -15,7 +15,8 @@ export  const criarCurso = async(req, res) => {
     //     res.redirect('/cursos') // redireciona para outra rota 
     // })
     try{
-        await bdConexao.execute(sql, [cod, curso, ch, tipo])
+        const [cursoNovo] = await bdConexao.execute(sql, [cod, curso, ch, tipo])
+        console.log(cursoNovo)
         res.redirect('/cursos')  
     }catch(err){
         console.log(err)
