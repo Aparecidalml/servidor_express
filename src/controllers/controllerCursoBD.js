@@ -7,6 +7,7 @@ export  const criarCurso = async(req, res) => {
         return res.status(400).json({mensagem: 'Preencha todos os dados!'})
     }
     const sql = 'insert into cursos (cod, curso, ch, tipo) values (?, ?, ?, ?);'
+    //sícrono com callback
     // bdConexao.query(sql, [cod, curso, ch, tipo], (err, curso) => {
     //     if(err){
     //         res.status(500).json({mensagem: 'Erro ao cadastrar o curso: ', err})
@@ -14,6 +15,7 @@ export  const criarCurso = async(req, res) => {
     //     }
     //     res.redirect('/cursos') // redireciona para outra rota 
     // })
+    //assíncrono com async/await
     try{
         const [cursoNovo] = await bdConexao.execute(sql, [cod, curso, ch, tipo])
         console.log(cursoNovo)
@@ -44,46 +46,44 @@ export async function listarCursos (req, res) {
     }
 }
 
-export const buscarCurso = (req, res) => {
-     const cursoEncontrado = cursos.find(c => c.curso === req.params.curso)
-    if(!cursoEncontrado){
-      return res.status(500).json({mensagem: 'Curso não encontrado'})
-    }    
-    res.status(200).json({mensagem: 'Curso Encontrado: ', cursoEncontrado})
+export const buscarCurso = async (req, res) => {
+    const nomeCurso = req.params.curso
+    console.log(nomeCurso)
+    const sql = 'select * from cursos where curso = ?;'
+    try{
+       const [cursoEncontrado] =  await bdConexao.execute(sql,[nomeCurso])
+       res.status(200).json({mensagem: 'Curso Encontrado: ', cursoEncontrado})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ mensagem: 'Curso não encontrado', erro: err.message})  
+    }
 }
 
-export const atualizarCurso = (req, res) => {
-     const cursoEncontrado = cursos.find(c => c.cod === req.params.cod)
+export const atualizarCurso = async (req, res) => {
+    const {curso, ch, tipo} = req.body
+    const cod = req.params.cod
+    const dados = [curso, ch, tipo, cod]
 
-    if(!cursoEncontrado){
-      return res.status(500).json({mensagem: 'Curso não encontrado!'})
+    try {
+        let update = `update cursos set curso = ?, ch = ?,tipo = ? where cod = ?`
+            
+        await bdConexao.execute(update, dados)
+        
+    } catch (error) {
+        console.log('Erro ao tentar atualizar o curso: ', error.message);
     }
-
-    const {cod, curso, ch, tipo} = req.body
-
-    if(!curso || !ch || !tipo) {
-        return res.status(400).json({mensagem: 'Preencha todos os dados!'})
-    }
-
-    cursoEncontrado.curso = curso
-    cursoEncontrado.ch = ch
-    cursoEncontrado.tipo = tipo  
-    
-    const cursoAtual = {cod, curso, ch, tipo}
-
-    res.status(200).json({mensagem: 'Curso Encontrado: ', cursoAtual})
 }
 
-export const removerCurso = (req, res) => {
-     const cursoEncontrado = cursos.findIndex(c => c.cod === req.params.cod)
-
-    if(cursoEncontrado === -1){
-      return res.status(500).json({mensagem: 'Curso não encontrado'})
+export const removerCurso = async (req,res) => {
+    const cod = req.params.cod
+    try{
+        let deleteCurso = `delete from cursos where cod = ?`
+        await bdConexao.execute(deleteCurso, [cod])
+    }
+    catch(err){
+        res.status (500).json({mensagem: 'nao encontrei seu curso, volte mais tarde',err})
     }
 
-    cursos.splice(cursoEncontrado, 1)
-
-    res.status(200).json({mensagem: 'Curso Removido com sucesso!', cursos})
 }
 
 export const alterarCurso = (req, res) => {

@@ -1,5 +1,5 @@
 import express from 'express'
-import { listarCursos,  criarCurso, /*buscarCurso, atualizarCurso, removerCurso, alterarCurso,*/ cadastroCurso } from '../controllers/controllerCursoBD.js'
+import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, /*alterarCurso,*/ cadastroCurso } from '../controllers/controllerCursoBD.js'
 
 const routeCurso = express.Router()
 
@@ -12,13 +12,13 @@ routeCurso.post('/curso', criarCurso)
 routeCurso.get('/cursos', listarCursos)
 
 // rota para buscar um curso pelo nome do curso
-// routeCurso.get('/curso/:curso', buscarCurso)
+routeCurso.get('/curso/:curso', buscarCurso)
 
 // // rota atulizar todos os dados
-// routeCurso.put('/curso/:cod', atualizarCurso)
+routeCurso.put('/curso/:cod', atualizarCurso)
 
 // // Rota para remover curso pelo código
-// routeCurso.delete('/curso/:cod', removerCurso)
+routeCurso.delete('/curso/:cod', removerCurso)
 
 // // atualizar um ou mais dados do curso
 // routeCurso.patch('/curso/:cod', alterarCurso)
