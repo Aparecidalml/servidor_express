@@ -1,32 +1,46 @@
 import path from "path"
-import { lerCursos, salvarCursos } from "../models/modelcurso.js"
-import {v4 as uuid} from 'uuid' 
+import bdConexao from '../config/database.js'
 
- const cursos = lerCursos() // [] ou dados do arquivo JSON
-
-export const criarCurso = (req, res) => {
-     // const {cod, curso, ch, tipo} = req.body // desestruturação da requisição
-    // console.log(req.body) // visualizando o corpo da requisição     
-
-    const cod = req.body.cod
-    const curso = req.body.curso
-    const ch = req.body.ch
-    const tipo = req.body.tipo
-
-    const cursoNovo = {id: uuid(), cod, curso, ch, tipo}
-
-    cursos.push(cursoNovo)
-    salvarCursos(cursos)
-    
-    //res.status(200).json({mensagem: 'Curso cadastrado!', cursoNovo})
-
-    res.redirect('/cursos') // redireciona para outra rota
+export  const criarCurso = async(req, res) => {
+    const {cod, curso, ch, tipo} = req.body // desestruturação da requisição    
+    if(!cod || !curso || !ch || !tipo) {
+        return res.status(400).json({mensagem: 'Preencha todos os dados!'})
+    }
+    const sql = 'insert into cursos (cod, curso, ch, tipo) values (?, ?, ?, ?);'
+    // bdConexao.query(sql, [cod, curso, ch, tipo], (err, curso) => {
+    //     if(err){
+    //         res.status(500).json({mensagem: 'Erro ao cadastrar o curso: ', err})
+    //         return
+    //     }
+    //     res.redirect('/cursos') // redireciona para outra rota 
+    // })
+    try{
+        await bdConexao.execute(sql, [cod, curso, ch, tipo])
+        res.redirect('/cursos')  
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ erro: err.message})  
+    }    
 }
 
-export function listarCursos (req, res) {
-    res.render('listarCursos', {cursos})
-    //res.status(200).json(cursos)
-    
+export async function listarCursos (req, res) {
+    const sql = 'select * from cursos;'
+    // bdConexao.query(sql, (err, cursos) => {
+    //     if(err){
+    //         res.status(500).json({mensagem: 'Erro ao listar os cursos: ', err})
+    //         return
+    //     }
+    //     // res.status(200).json(cursos)
+    //     res.render('listarCursos', {cursos})
+    // })
+    try{
+        const [cursos] = await bdConexao.execute(sql)
+        // res.status(200).json(cursos)
+        res.render('listarCursos', {cursos})
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ erro: err.message})  
+    }
 }
 
 export const buscarCurso = (req, res) => {

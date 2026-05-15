@@ -3,14 +3,14 @@ import routeCurso from './routes/routeCurso.js'
 import path from 'path'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
-import { fileURLToPath } from 'url'
+import bdConexao from './config/database.js'
 
 dotenv.config()
 
 const app = express()
 
-const PORT = process.env.PORT || 3000
-const HOST = process.env.HOST || 'localhost'
+const PORT = process.env.EXPRESS_PORT || 3000
+const HOST = process.env.EXPRESS_HOST || 'localhost'
 
 app.use(express.json()) //middleware para fazer o parsear JSON no corpo das requisições
 app.use(express.urlencoded({extended: true})) //middleware para fazer o parsear dados de formulários (x-www-form-urlencoded)

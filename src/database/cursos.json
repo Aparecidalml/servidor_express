@@ -23,5 +23,19 @@
     "curso": "Administração",
     "ch": "1000",
     "tipo": "Técnico"
+  },
+  {
+    "id": "d6d44e1d-e4b4-48b7-9191-7284fa639a3c",
+    "cod": "005",
+    "curso": "Segurança do Trabalho",
+    "ch": "1300",
+    "tipo": "Técnico"
+  },
+  {
+    "id": "c70a3da9-d38c-46b9-9697-083eea551da6",
+    "cod": "006",
+    "curso": "Recepcionista",
+    "ch": "50",
+    "tipo": "Aperfeiçoamento"
   }
 ]
