@@ -86,33 +86,42 @@ export const removerCurso = async (req,res) => {
 
 }
 
-export const alterarCurso = (req, res) => {
-    const cursoEncontrado = cursos.find(c => c.cod === req.params.cod)
+export const alterarCurso = async (req, res) => {  
+    const { curso, ch, tipo } = req.body
+    const { cod } = req.params
+    try {
+        let campos = []
+        let valores = []
+        if(curso !== undefined){
+            campos.push('curso = ?')
+            valores.push(curso)
+        }
+        if(ch !== undefined){
+            campos.push('ch = ?')
+            valores.push(ch)
+        }
+        if(tipo !== undefined){
+            campos.push('tipo = ?')
+            valores.push(tipo)
+        }
+        if(campos.length === 0){
+            return res.status(400).json({mensagem: 'Nenhum campo enviado para atualização' })
 
-    if(!cursoEncontrado){
-      return res.status(400).json({mensagem: 'Curso não encontrado!'})
+        }
+        valores.push(cod)
+        const uptade = campos.join(', ')
+        const sql = `UPDATE cursos SET ${uptade} WHERE cod = ? `
+        const [resultado] = await bdConexao.execute(sql, valores)   
+        if(resultado.affectedRows === 0){
+            return res.status(404).json({mensagem: 'Curso não encontrado' })
+        }
+        res.status(200).json({mensagem: 'Curso atualizado parcialmente', resultado})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({erro: error.message })
     }
-
-    const {cod, curso, ch, tipo} = req.body
-
-    if(curso !== undefined && curso !== null  && curso !== '') {
-        cursoEncontrado.curso = curso
-    }
-    if ( ch !== undefined && ch !== null  && ch !== '' ){
-            cursoEncontrado.ch = Number(ch)
-    }
-    if(tipo !== undefined && tipo !== null  && tipo !== ''){
-        cursoEncontrado.tipo = tipo  
-    }
-    
-    const cursoAtual = {
-        cod: cod,  
-        curso: cursoEncontrado.curso, 
-        ch: cursoEncontrado.ch, 
-        tipo: cursoEncontrado.tipo}
-
-    res.status(200).json({mensagem: 'Curso Encontrado: ', cursoAtual})
 }
+
 
 export const cadastroCurso = (req, res) => {
     res.sendFile(path.resolve('./src/public/html/cadastroCurso.html'))

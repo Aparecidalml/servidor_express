@@ -1,5 +1,5 @@
 import express from 'express'
-import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, /*alterarCurso,*/ cadastroCurso } from '../controllers/controllerCursoBD.js'
+import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCursoBD.js'
 
 const routeCurso = express.Router()
 
@@ -21,6 +21,6 @@ routeCurso.put('/curso/:cod', atualizarCurso)
 routeCurso.delete('/curso/:cod', removerCurso)
 
 // // atualizar um ou mais dados do curso
-// routeCurso.patch('/curso/:cod', alterarCurso)
+routeCurso.patch('/curso/:cod', alterarCurso)
 
 export default routeCurso
