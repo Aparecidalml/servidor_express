@@ -4,6 +4,11 @@ import path from 'path'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import bdConexao from './config/database.js'
+import sequelize from './config/orm.js'
+import Cursos from './models/modelCursoORM.js'
+import { sincronizarBD } from './config/orm.js'
+
+sincronizarBD()
 
 dotenv.config()
 
