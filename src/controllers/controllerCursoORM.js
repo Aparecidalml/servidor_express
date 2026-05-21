@@ -1,6 +1,6 @@
 import path from "path"
 import Curso from '../models/modelCursoORM.js'
-
+import {Op} from 'sequelize'
 
 export  const criarCurso = async(req, res) => {
     const {cod, curso, ch, tipo} = req.body     
@@ -10,8 +10,8 @@ export  const criarCurso = async(req, res) => {
     try{
         const cursoNovo = await Curso.create(req.body )
         console.log(cursoNovo)
-        res.status(200).json({mensagem: 'Curso criado com sucesso', cursoNovo})
-        // res.redirect('/cursos')  
+        // res.status(200).json({mensagem: 'Curso criado com sucesso', cursoNovo})
+        res.redirect('/cursos')  
     }catch(err){
         console.log(err)
         res.status(500).json({ erro: err.message})  
@@ -19,17 +19,8 @@ export  const criarCurso = async(req, res) => {
 }
 
 export async function listarCursos (req, res) {
-    const sql = 'select * from cursos;'
-    // bdConexao.query(sql, (err, cursos) => {
-    //     if(err){
-    //         res.status(500).json({mensagem: 'Erro ao listar os cursos: ', err})
-    //         return
-    //     }
-    //     // res.status(200).json(cursos)
-    //     res.render('listarCursos', {cursos})
-    // })
     try{
-        const [cursos] = await bdConexao.execute(sql)
+        const cursos = await Curso.findAll()
         // res.status(200).json(cursos)
         res.render('listarCursos', {cursos})
     }catch(err){
@@ -40,10 +31,10 @@ export async function listarCursos (req, res) {
 
 export const buscarCurso = async (req, res) => {
     const nomeCurso = req.params.curso
-    console.log(nomeCurso)
-    const sql = 'select * from cursos where curso = ?;'
+
     try{
-       const [cursoEncontrado] =  await bdConexao.execute(sql,[nomeCurso])
+       const cursoEncontrado =  await Curso.findAll({where: {curso: {[Op.like]: `%${nomeCurso}%`}}})
+       //select * from cursos where curso like '%nomeCurso%'
        res.status(200).json({mensagem: 'Curso Encontrado: ', cursoEncontrado})
     }catch(err){
         console.log(err)
@@ -51,19 +42,24 @@ export const buscarCurso = async (req, res) => {
     }
 }
 
-export const atualizarCurso = async (req, res) => {
-    const {curso, ch, tipo} = req.body
-    const cod = req.params.cod
-    const dados = [curso, ch, tipo, cod]
-
-    try {
-        let update = `update cursos set curso = ?, ch = ?,tipo = ? where cod = ?`
-            
-        await bdConexao.execute(update, dados)
-        
-    } catch (error) {
-        console.log('Erro ao tentar atualizar o curso: ', error.message);
+export async function atualizarCurso (req, res) {
+    try{
+        const cursoEncontrado = await Curso.findOne({where: {cod: req.params.cod}}, {raw: true})
+        const id = cursoEncontrado.idCurso
+        console.log(id)
+        if(!cursoEncontrado) return res.status(404).json({mensagem: 'Curso não encontrado'})
+        const {curso, ch, tipo} = req.body
+        if(!curso && !ch && !tipo) {            
+            return res.status(400).json({mensagem: 'Preencha pelo menos um campo!'})
+        }
+        await Curso.update (req.body, {where: {idCurso: id}})
+         //res.render('listarCursos', {cursos: [cursoEncontrado]})
+         res.redirect('/cursos')  
+        }catch(err){
+            console.log(err)
+            res.status(500).json({ erro: err.message})
     }
+
 }
 
 export const removerCurso = async (req,res) => {
