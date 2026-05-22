@@ -1,7 +1,7 @@
 import express from 'express'
 // import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCurso.js'
 // import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCursoBD.js'
-import { criarCurso, cadastroCurso, listarCursos, buscarCurso, atualizarCurso } from '../controllers/controllerCursoORM.js'
+import { criarCurso, cadastroCurso, listarCursos, buscarCurso, atualizarCurso , removerCurso, alterarCurso} from '../controllers/controllerCursoORM.js'
 
 const routeCurso = express.Router()
 
@@ -20,9 +20,9 @@ routeCurso.get('/curso/:curso', buscarCurso)
 routeCurso.put('/curso/:cod', atualizarCurso)
 
 // // Rota para remover curso pelo código
-// routeCurso.delete('/curso/:cod', removerCurso)
+routeCurso.delete('/curso/:cod', removerCurso)
 
 // // atualizar um ou mais dados do curso
-// routeCurso.patch('/curso/:cod', alterarCurso)
+ routeCurso.patch('/curso/:cod', alterarCurso)
 
 export default routeCurso

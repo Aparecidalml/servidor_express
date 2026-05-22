@@ -44,69 +44,57 @@ export const buscarCurso = async (req, res) => {
 
 export async function atualizarCurso (req, res) {
     try{
-        const cursoEncontrado = await Curso.findOne({where: {cod: req.params.cod}}, {raw: true})
-        const id = cursoEncontrado.idCurso
-        console.log(id)
+        const cod = req.params.cod       
+         //select * from cursos where cod = req.params.cod
+        const cursoEncontrado = await Curso.findOne({where: {cod: cod}}, {raw: true})
+        // console.log(cursoEncontrado.dataValues)
+        const id = cursoEncontrado.idCurso    
         if(!cursoEncontrado) return res.status(404).json({mensagem: 'Curso não encontrado'})
         const {curso, ch, tipo} = req.body
-        if(!curso && !ch && !tipo) {            
-            return res.status(400).json({mensagem: 'Preencha pelo menos um campo!'})
+        //const cursoAtual = { curso: curso, ch: ch, tipo: tipo}
+        if(!curso || !ch || !tipo) {            
+            return res.status(400).json({mensagem: 'Preencha todos os campo!'})
         }
-        await Curso.update (req.body, {where: {idCurso: id}})
-         //res.render('listarCursos', {cursos: [cursoEncontrado]})
-         res.redirect('/cursos')  
-        }catch(err){
-            console.log(err)
-            res.status(500).json({ erro: err.message})
+        await Curso.update (req.body, {where: {idCurso: id}}) //update cursos set curso = ?, ch = ?, tipo = ? where idCurso = id
+        res.status(200).json({ mensagem: 'Curso atualizado com sucesso'})     
+        // res.redirect('/cursos')           
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ erro: err.message})
     }
-
 }
 
 export const removerCurso = async (req,res) => {
     const cod = req.params.cod
     try{
-        let deleteCurso = `delete from cursos where cod = ?`
-        await bdConexao.execute(deleteCurso, [cod])
+        const cursoEncontrado = await Curso.findOne({where: {cod: cod}}, {raw: true})
+        if(!cursoEncontrado) return res.status(404).json({mensagem: 'Curso não encontrado'})
+
+        await Curso.destroy({where: {idCurso: cursoEncontrado.idCurso}})
+
+        res.status(200).json({mensagem: 'Curso removido com sucesso'})
     }
     catch(err){
         res.status (500).json({mensagem: 'nao encontrei seu curso, volte mais tarde',err})
     }
-
 }
 
 export const alterarCurso = async (req, res) => {  
-    const { curso, ch, tipo } = req.body
-    const { cod } = req.params
-    try {
-        let campos = []
-        let valores = []
-        if(curso !== undefined){
-            campos.push('curso = ?')
-            valores.push(curso)
-        }
-        if(ch !== undefined){
-            campos.push('ch = ?')
-            valores.push(ch)
-        }
-        if(tipo !== undefined){
-            campos.push('tipo = ?')
-            valores.push(tipo)
-        }
-        if(campos.length === 0){
-            return res.status(400).json({mensagem: 'Nenhum campo enviado para atualização' })
+    try{
+        const dados =  await Curso.findOne({where: {cod: req.params.cod}}, {raw: true})
+        if(!dados) return res.status(404).json({mensagem: 'Curso não encontrado'}) 
+        const dadosParciais = {}   
+        if(req.body.curso) dadosParciais.curso = req.body.curso
+        if(req.body.ch) dadosParciais.ch = req.body.ch
+        if(req.body.tipo) dadosParciais.tipo = req.body.tipo
+        console.log(req.body)
+        await Curso.update (dadosParciais, {where: {idCurso: dados.idCurso}}) //update cursos set curso = ?, ch = ?, tipo = ? where idCurso = id
+        res.status(200).json({ mensagem: 'Curso atualizado com sucesso'})
 
-        }
-        valores.push(cod)
-        const uptade = campos.join(', ')
-        const sql = `UPDATE cursos SET ${uptade} WHERE cod = ? `
-        const [resultado] = await bdConexao.execute(sql, valores)   
-        if(resultado.affectedRows === 0){
-            return res.status(404).json({mensagem: 'Curso não encontrado' })
-        }
-        res.status(200).json({mensagem: 'Curso atualizado parcialmente', resultado})
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({erro: error.message })
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ erro: err.message})
+
     }
 }
 
