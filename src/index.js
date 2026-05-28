@@ -1,12 +1,13 @@
 import express from 'express'
-import routeCurso from './routes/routeCurso.js'
 import path from 'path'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
-import bdConexao from './config/database.js'
-import sequelize from './config/orm.js'
+// import bdConexao from './config/database.js'
+import sequelize, {sincronizarBD} from './config/orm.js'
 import Cursos from './models/modelCursoORM.js'
-import { sincronizarBD } from './config/orm.js'
+import User from './models/modelUser.js'
+import routeCurso from './routes/routeCurso.js'
+import routeUser from './routes/rotaUser.js'
 
 sincronizarBD()
 
@@ -25,10 +26,11 @@ app.use(morgan('dev')) //middleware para logar as requisições no console
 
 app.set('view engine', 'ejs') //configuração para usar o EJS como template engine
 app.set('views', path.join(import.meta.dirname, './views')) //configuração para definir a pasta onde estão as views do EJS
-
+//src/views
 // app.use('/curso', routeCurso) // usando as rotas de curso httpp://localhost:3000/curso/endereço_da_rota
 
 app.use(routeCurso)
+app.use(routeUser)
 
 app.get('/', (req, res) => {
     // res.send('<h1> Página Inicial </h1>')

@@ -28,6 +28,11 @@ const Cursos = sequelize.define('Cursos', {
     tipo: {
         type: DataTypes.STRING,
         allowNull: false
+        // references: {
+        //     model: 'escola',
+        //     primaryKey: ''
+        // }
+        // FOREIGN KEY (TIPO) REFERENCES ESCOLA(ID)
     }
 },
 {
