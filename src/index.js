@@ -7,7 +7,8 @@ import sequelize, {sincronizarBD} from './config/orm.js'
 import Cursos from './models/modelCursoORM.js'
 import User from './models/modelUser.js'
 import routeCurso from './routes/routeCurso.js'
-import routeUser from './routes/rotaUser.js'
+import routeUser from './routes/routeUser.js'
+import routeLogin from './routes/routeLogin.js'
 
 sincronizarBD()
 
@@ -31,10 +32,12 @@ app.set('views', path.join(import.meta.dirname, './views')) //configuração par
 
 app.use(routeCurso)
 app.use(routeUser)
+app.use(routeLogin)
+
 
 app.get('/', (req, res) => {
     // res.send('<h1> Página Inicial </h1>')
-    res.render('index', {nome: 'SENAC'})
+    res.render('index')
 })
 
 app.listen(PORT, HOST, () => {
