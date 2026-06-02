@@ -9,6 +9,7 @@ import User from './models/modelUser.js'
 import routeCurso from './routes/routeCurso.js'
 import routeUser from './routes/routeUser.js'
 import routeLogin from './routes/routeLogin.js'
+import session from 'express-session'
 
 sincronizarBD()
 
@@ -30,14 +31,22 @@ app.set('views', path.join(import.meta.dirname, './views')) //configuração par
 //src/views
 // app.use('/curso', routeCurso) // usando as rotas de curso httpp://localhost:3000/curso/endereço_da_rota
 
+app.use(session ({
+    secret: 'sistema',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 }
+    })
+)
+
 app.use(routeCurso)
 app.use(routeUser)
 app.use(routeLogin)
 
 
 app.get('/', (req, res) => {
-    // res.send('<h1> Página Inicial </h1>')
-    res.render('index')
+    res.send('<h1> Página Inicial </h1>')
+    // res.render('index')
 })
 
 app.listen(PORT, HOST, () => {

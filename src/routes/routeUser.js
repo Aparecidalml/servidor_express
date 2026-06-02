@@ -7,7 +7,7 @@ routeUser.get('/cadastroUsuario', cadastrarUsuario)
 routeUser.post('/usuario', salvarUsuario)
 routeUser.get('/usuarios', listarUsuarios)
 routeUser.put('/usuario', atualizarUsuario)
-routeUser.delete('/usuario', removerUsuario)
-routeUser.patch('/usuario', atualizarParcialUsuario)
+routeUser.delete('/usuario/:id', removerUsuario)
+routeUser.patch('/usuario/:id', atualizarParcialUsuario)
 
 export default routeUser
