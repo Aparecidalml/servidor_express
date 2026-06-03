@@ -10,6 +10,9 @@ import routeCurso from './routes/routeCurso.js'
 import routeUser from './routes/routeUser.js'
 import routeLogin from './routes/routeLogin.js'
 import session from 'express-session'
+import connectSqlite from 'connect-sqlite3'
+
+const sqliteStore = connectSqlite(session)
 
 sincronizarBD()
 
@@ -32,17 +35,27 @@ app.set('views', path.join(import.meta.dirname, './views')) //configuração par
 // app.use('/curso', routeCurso) // usando as rotas de curso httpp://localhost:3000/curso/endereço_da_rota
 
 app.use(session ({
-    secret: 'sistema',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 }
+        store: new sqliteStore ({
+            db: 'session.db',
+            dir: './src/database',
+            table: 'sessions',
+            ttl: 60 * 60 * 24
+        }),  
+        secret: 'sistema_academico',
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie: { 
+            maxAge: 1000 * 60 * 1, //ms tempo de interatividade
+            httpOnly: true
+            // expires: 1000 * 60 * 1 // tempo fixo       
+        }
     })
 )
 
 app.use(routeCurso)
 app.use(routeUser)
 app.use(routeLogin)
-
 
 app.get('/', (req, res) => {
     res.send('<h1> Página Inicial </h1>')

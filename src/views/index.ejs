@@ -6,6 +6,11 @@
     <title>Página Inicial</title>
 </head>
 <body>
-    <h1>Bem-vindo <%= usuario %>!</h1>    
+    <h1>Bem-vindo <%= usuario %>!</h1>  
+    
+    <form action="/logout" method="post">
+        <button type="submit"> SAIR </button>
+    </form>
+    
 </body>
 </html>
