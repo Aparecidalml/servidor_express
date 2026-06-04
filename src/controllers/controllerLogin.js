@@ -22,7 +22,8 @@ export const validarLogin = async (req, res) => {
             if(err) return res.status(500).json({msg: 'Erro ao salvar a sessão.'})
             req.session.usuario = {
                 id: usuario.idUser,
-                nome: usuario.nome
+                nome: usuario.nome,
+                perfil: usuario.perfil
             }
             res.render('index', {usuario: usuario.nome})
         })     

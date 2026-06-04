@@ -1,4 +1,5 @@
 import express, { Router } from 'express'
+import { autenticar} from '../middlewares/auth.js'
 import { listarUsuarios, salvarUsuario, cadastrarUsuario, atualizarUsuario, removerUsuario, atualizarParcialUsuario } from '../controllers/controllerUser.js'
 
 const routeUser = express.Router()

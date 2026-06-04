@@ -20,6 +20,11 @@ const User = sequelize.define('User', {
     senha: {
         type: DataTypes.STRING(100),
         allowNull: false
+    },
+    perfil: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+       // defaultValue: 'valor'
     }
     },
     {
