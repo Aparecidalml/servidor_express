@@ -2,10 +2,11 @@ import express from 'express'
 // import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCurso.js'
 // import { listarCursos,  criarCurso, buscarCurso, atualizarCurso, removerCurso, alterarCurso, cadastroCurso } from '../controllers/controllerCursoBD.js'
 import { criarCurso, cadastroCurso, listarCursos, buscarCurso, atualizarCurso , removerCurso, alterarCurso} from '../controllers/controllerCursoORM.js'
+import { autenticar, validarPerfil } from '../middlewares/auth.js'
 
 const routeCurso = express.Router()
 
-routeCurso.get('/cadastro', cadastroCurso)
+routeCurso.get('/cadastro', autenticar, validarPerfil(['Administrador', 'Professor']), cadastroCurso)
 
 //Rota para adicionar curso
 routeCurso.post('/curso', criarCurso)

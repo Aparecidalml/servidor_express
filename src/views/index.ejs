@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial</title>
 </head>
+
 <body>
-    <h1>Bem-vindo <%= usuario %>!</h1>  
-    
+    <h1>Bem-vindo <%= usuario.nome %>!</h1>
+
+    <nav>
+        <% let perfil = usuario.perfil %>
+        <!-- <% if( perfil === 'Admin' || usuario.perfil === 'Professor') { %>
+            <a href="\cursos"> Visualizar Cursos</a>
+            <a href="\cadastro"> Cadastrar Cursos</a>
+        <% } else { %>
+             <a href="\cursos"> Visualizar Cursos</a>
+        <% } %> -->
+    </nav>
+
+       <nav>
+        <% switch(perfil) { 
+            case 'Admin':
+            case 'Professor': %>
+                <a href="\cursos"> Visualizar Cursos</a>
+                <a href="\cadastro"> Cadastrar Cursos</a>
+            <% break 
+            case 'Estudante': %>
+                <a href="\cursos"> Visualizar Cursos</a>
+                <% break 
+            default: %>
+                
+        <% } %>
+    </nav>
+
+
+
+    <br><br><br><br>
+
     <form action="/logout" method="post">
         <button type="submit"> SAIR </button>
     </form>
-    
+
 </body>
+
 </html>

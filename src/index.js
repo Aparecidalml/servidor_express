@@ -11,6 +11,7 @@ import routeUser from './routes/routeUser.js'
 import routeLogin from './routes/routeLogin.js'
 import session from 'express-session'
 import connectSqlite from 'connect-sqlite3'
+import { apagarCache } from './middlewares/auth.js'
 
 const sqliteStore = connectSqlite(session)
 
@@ -52,6 +53,8 @@ app.use(session ({
         }
     })
 )
+
+app.use(apagarCache)
 
 app.use(routeCurso)
 app.use(routeUser)

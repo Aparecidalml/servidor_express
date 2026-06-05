@@ -1,18 +1,32 @@
-const perfils = ['Adminstrador', 'Professor', 'Estudante']
+import User from '../models/modelUser.js'
 
-export const autenticar = (req, res, next) => {
+const perfils = ['Admin', 'Professor', 'Estudante']
 
-    if(!req.session.usuario) return res.redirect('/login')
+export const autenticar = async (req, res, next) => {
 
-    next()     
+    if (!req.session.usuario) return res.redirect('/login')
+    const usuario = await User.findByPk(req.session.usuario.id)
+    if (!usuario) {
+        req.session.destroy(() => {})
+        return res.status(401).json({mensagem: 'Usuário não encontrado' })
+    }
+    req.usuario = usuario
+    next()
 }
 
-export function validaPerfil (perfils) {
+export function validarPerfil(perfils) {
     return (req, res, next) => {
         const perfil = req.session.usuario.perfil
-        if(!perfils.includes(perfil)) return res.status(401).json({msg: 'Perfil não encontrado!'})
-
+        if (!perfils.includes(perfil)) return res.status(403).send('Acesso Negado!')
         next()
     }
+}
+
+export const apagarCache = (req, res, next) => {
+
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
+    next()
 }
 

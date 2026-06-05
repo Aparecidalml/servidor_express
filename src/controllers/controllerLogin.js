@@ -10,7 +10,7 @@ export const login = (req, res) => {
 
 export const validarLogin = async (req, res) => {
     const {email, senha} = req.body
-    if(!email && !senha) return res.status(400).json({msg: 'Preencha todos os campos!'})
+    if(!email && !senha) return res.status(400).send('Preencha todos os campos!')
     try{
         const usuario = await User.findOne({where: {email: email}})
         if(!usuario) return res.status(400).json({msg: 'E-mail inválido!'})
@@ -25,7 +25,7 @@ export const validarLogin = async (req, res) => {
                 nome: usuario.nome,
                 perfil: usuario.perfil
             }
-            res.render('index', {usuario: usuario.nome})
+            res.render('index', {usuario: usuario})
         })     
     }catch(err){
         res.status(500).json({msg: 'Erro no servidor!'})
@@ -34,8 +34,8 @@ export const validarLogin = async (req, res) => {
 
 export const logout = (req, res) => {
     req.session.destroy((err) => {
-        if(err) return res.status(500).json({msg: 'Erro ao apagar a sessão.'})
-        res.clearCookie('Connect.sid')
-        res.redirect('/login')
+        if(err) return res.status(500).send('Erro ao sair!')
+        res.clearCookie('connect.sid')
+        return res.redirect('/login')
     })
 }

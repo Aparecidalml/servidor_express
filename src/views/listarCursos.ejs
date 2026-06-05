@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Cursos Disponíveis</h1>
+    <h3>
     <% cursos.forEach(curso => { %>
         <div>
             Curso: <%= curso.curso %>
@@ -17,6 +18,10 @@
             </ul>
         </div>
     <% }) %>
-    
+    </h3>
+    <br><br><br><br>
+    <form action="/logout" method="post">
+        <button type="submit"> SAIR </button>
+    </form>
 </body>
 </html>
