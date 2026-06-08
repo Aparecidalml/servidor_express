@@ -21,7 +21,7 @@ dotenv.config()
 
 const app = express()
 
-const PORT = process.env.EXPRESS_PORT || 3000
+const PORT = process.env.EXPRESS_PORT || 10000
 const HOST = process.env.EXPRESS_HOST || 'localhost'
 
 app.use(express.json()) //middleware para fazer o parsear JSON no corpo das requisições
