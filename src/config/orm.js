@@ -1,7 +1,20 @@
 import { Sequelize } from "sequelize"
 import dotenv from 'dotenv'
 
+// npm i pg pg-hstore
+
 dotenv.config()
+
+const sequelize = new Sequelize(
+    process.env.DATABASE_URL,
+    {    
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl: {require: true, rejectUnauthorized: false } //true se estiver em produção
+        },
+        logging: false
+    }
+)
 
 // const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 //     dialect: 'mysql',
@@ -9,16 +22,6 @@ dotenv.config()
 //     port: process.env.DB_PORT   
 // })
 
-const sequelize = new Sequelize(
-    process.env.DATABASE_URL,
-    {    
-        dialect: 'postgres',
-        dialectOptions: {
-            ssl: {require: true,rejectUnauthorized: false }
-        },
-        logging: false
-    }
-)
 
 // const sequelize = new Sequelize({
 //     dialect: 'sqlite',
