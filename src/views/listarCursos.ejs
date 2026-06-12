@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cursos</title>
-</head>
-<body>
+<%- include('partials/header', {titulo: 'Cursos'}) %>
+
     <h1>Cursos Disponíveis</h1>
     <h3>
     <% cursos.forEach(curso => { %>
@@ -23,5 +17,5 @@
     <form action="/logout" method="post">
         <button type="submit"> SAIR </button>
     </form>
-</body>
-</html>
+
+    <%- include('partials/footer') %>

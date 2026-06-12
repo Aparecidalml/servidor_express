@@ -12,6 +12,7 @@ import routeLogin from './routes/routeLogin.js'
 import session from 'express-session'
 import connectSqlite from 'connect-sqlite3'
 import { apagarCache } from './middlewares/auth.js'
+import cookieParser from 'cookie-parser'
 
 const sqliteStore = connectSqlite(session)
 
@@ -58,6 +59,8 @@ app.use(session ({
         }
     })
 )
+
+app.use(cookieParser())
 
 app.use(apagarCache)
 
