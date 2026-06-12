@@ -5,8 +5,8 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "start": "cross-env MODE_NODE=prod node ./src/index.js",
+    "dev": "cross-env MODE_NODE=dev nodemon ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Aparecidalml/servidor_express#readme",
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.14",

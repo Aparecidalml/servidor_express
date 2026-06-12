@@ -21,8 +21,13 @@ dotenv.config()
 
 const app = express()
 
-const PORT = process.env.EXPRESS_PORT || 3000
-const HOST = process.env.EXPRESS_HOST || 'localhost'
+let PORT = process.env.EXPRESS_PORT 
+let HOST = process.env.EXPRESS_HOST 
+
+if(process.env.MODE_NODE === 'dev'){
+    PORT = 3000
+    HOST = 'localhost'
+}
 
 app.use(express.json()) //middleware para fazer o parsear JSON no corpo das requisições
 app.use(express.urlencoded({extended: true})) //middleware para fazer o parsear dados de formulários (x-www-form-urlencoded)

@@ -5,28 +5,34 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const sequelize = new Sequelize(
-    process.env.DATABASE_URL,
-    {    
-        dialect: 'postgres',
-        dialectOptions: {
-            ssl: {require: true, rejectUnauthorized: false } //true se estiver em produção
-        },
-        logging: false
-    }
-)
+let sequelize
 
-// const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-//     dialect: 'mysql',
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT   
-// })
+if(process.env.MODE_NODE === "dev"){
+    console.log('Modo: ', process.env.MODE_NODE)
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        storage: './src/database/bd.sqlite'
+    })
+}else{
+    console.log('Modo: ', process.env.MODE_NODE)
+    sequelize = new Sequelize(
+        process.env.DATABASE_URL,
+        {    
+            dialect: 'postgres',
+            dialectOptions: {
+                ssl: {require: true, rejectUnauthorized: false } //true se estiver em produção
+            },
+            logging: false
+        }
+    )
+}
 
 
-// const sequelize = new Sequelize({
-//     dialect: 'sqlite',
-//     storage: './src/database/bd.sqlite'
-// })
+
+
+
+
+
 
 const conexaoBD = async () => {
     try{
