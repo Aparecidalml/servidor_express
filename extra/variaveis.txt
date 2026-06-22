@@ -1,8 +1,22 @@
-EXPRESS_PORT = 3000
-EXPRESS_HOST = 'localhost'
+EXPRESS_PORT = 10000
+EXPRESS_HOST = 0.0.0.0
 
-DATABASE_HOST = 'localhost'
-DATABASE_PORT = 3306
-DATABASE_USER = 'root'
-DATABASE_PASSWORD = 'BemVindo!'
-DATABASE_NAME = 'bd_academico'
+JWT_SECRET = @Senac@2026
+
+# Neon
+# DATABASE_URL = postgresql://neondb_owner:npg_bp3wd0oDSfUA@ep-summer-sea-apoygxdg-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+
+# Render
+# DATABASE_URL = postgresql://sys_academico_user:587H2HvmqCjbaDN0semr6QyfVhdb0fW1@dpg-d8kriburnols73c2pqq0-a.ohio-postgres.render.com/sys_academico
+
+# SUPABASE
+DATABASE_URL = postgresql://postgres.ytzlrmrfkzmmmtbpmive:@SENAC@2026@aws-1-sa-east-1.pooler.supabase.com:6543/postgres
+
+# Senha SUPABASE
+# SENHA_DB = @SENAC@2026
+
+# DATABASE_HOST = localhost
+# DATABASE_PORT = 3306
+# DATABASE_USER = root
+# DATABASE_PASSWORD = BemVindo!
+# DATABASE_NAME = bd_academico
